@@ -1,8 +1,6 @@
+from regles import chiffre_absent_ligne, chiffre_absent_colonne, chiffre_absent_bloc
 
-
-
-
-######### Vérification de la force brute
+####### Vérification de la force brute
 def verif_grille_bruteforce(grille):
     for case in range(81):
         chiffre = grille[case]
