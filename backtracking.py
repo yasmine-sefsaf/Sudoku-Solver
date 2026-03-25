@@ -1,23 +1,48 @@
+# from regles import (
+#     chiffre_absent_ligne,
+#     chiffre_absent_colonne,
+#     chiffre_absent_bloc
+# )
+
+# def resoudre_backtracking(mat):
+    
+#     for i in range(9):
+#         for j in range(9):
+#             if mat[i][j] == 0:
+#                 for num in range(1, 10):
+#                     # On passe mat directement — regles.py attend une matrice
+#                     if (chiffre_absent_ligne(mat, i, num) and
+#                         chiffre_absent_colonne(mat, j, num) and
+#                         chiffre_absent_bloc(mat, i, j, num)):
+                        
+#                         mat[i][j] = num
+#                         if resoudre_backtracking(mat):
+#                             return True
+#                         mat[i][j] = 0       # backtrack
+#                 return False
+#     return True
+
 from regles import (
     chiffre_absent_ligne,
     chiffre_absent_colonne,
     chiffre_absent_bloc
 )
 
-def resoudre_backtracking(mat):
+def resoudre_backtracking(mat, compteur=None):
+    if compteur is None:
+        compteur = [0]
+
     for i in range(9):
         for j in range(9):
             if mat[i][j] == 0:
                 for num in range(1, 10):
-                    # On passe mat directement — regles.py attend une matrice
+                    compteur[0] += 1        # on compte chaque chiffre testé
                     if (chiffre_absent_ligne(mat, i, num) and
                         chiffre_absent_colonne(mat, j, num) and
                         chiffre_absent_bloc(mat, i, j, num)):
-                        
                         mat[i][j] = num
-                        if solve_sudoku(mat):
+                        if resoudre_backtracking(mat, compteur):
                             return True
-                        mat[i][j] = 0       # backtrack
+                        mat[i][j] = 0
                 return False
     return True
-
