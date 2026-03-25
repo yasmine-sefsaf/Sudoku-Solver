@@ -67,7 +67,7 @@ def resoudre_force_brute_exhaustive(grille):
     return False, combinaisons_testees, total
 
 
-def bruteforce_aleatoire_memoire(grille, max_tentatives=1000):
+def bruteforce_aleatoire_memoire(grille, max_tentatives=100000, stats=None):
     """
     Force brute aléatoire avec mémoire.
     Tire au hasard parmi les candidats valides à chaque case.
@@ -81,6 +81,14 @@ def bruteforce_aleatoire_memoire(grille, max_tentatives=1000):
         grille_test = copy.deepcopy(grille)
         combinaison = []
         bloquee = False
+
+        if stats is not None:
+            if len(stats) == 0:
+                stats.append(tentatives)
+                stats.append(len(combinaisons_testees))
+            else:
+                stats[0] = tentatives
+                stats[1] = len(combinaisons_testees)
 
         for i in range(9):
             for j in range(9):
