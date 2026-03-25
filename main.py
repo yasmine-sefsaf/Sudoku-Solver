@@ -19,7 +19,6 @@ while True:
 
         print("\nAlgorithme :")
         print("1. Backtracking")                        
-
         print("2. Force brute aléatoire avec mémoire")
         print("3. Force brute itérative (passes multiples)")
         print("4. Force brute exhaustive (toutes les combinaisons)")
