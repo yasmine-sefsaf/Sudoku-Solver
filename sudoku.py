@@ -2,7 +2,7 @@ import copy
 import time
 import tracemalloc
 
-from bruteforce import resoudre_force_brute_iterative, resoudre_force_brute_exhaustive
+from bruteforce import resoudre_force_brute_iterative, resoudre_force_brute_exhaustive, bruteforce_aleatoire_memoire
 from backtracking import resoudre_backtracking
 
 
@@ -77,7 +77,7 @@ class SudokuGrid:
     # ------------------------------------------------------------------
 
     def resoudre(self, methode: str):
-        if methode not in ('backtracking', 'bruteforce_iterative', 'bruteforce_exhaustive'):
+        if methode not in ('backtracking', 'bruteforce_iterative', 'bruteforce_exhaustive', 'bruteforce_aleatoire_memoire'):
             raise ValueError("methode invalide")
 
         grille_travail = copy.deepcopy(self.grille)
@@ -97,6 +97,9 @@ class SudokuGrid:
                 solved = resoudre_backtracking(grille_travail, nb_operations)
             elif methode == 'bruteforce_iterative':
                 solved = resoudre_force_brute_iterative(grille_travail)
+            elif methode == 'bruteforce_aleatoire_memoire':
+                solved, tentatives, nb_stockees = bruteforce_aleatoire_memoire(grille_travail)
+                stats_aleatoire = (tentatives, nb_stockees)
             else:
                 solved, combinaisons, total = resoudre_force_brute_exhaustive(grille_travail)
                 stats_exhaustive = (combinaisons, total)
@@ -118,7 +121,11 @@ class SudokuGrid:
             print(f"Mémoire : {current/1024:.2f} Ko (pic : {peak/1024:.2f} Ko)")
             if methode == 'backtracking':
                 print(f"Nb opérations : {nb_operations[0]:,}")
-            
+            if methode == 'bruteforce_aleatoire_memoire' and stats_aleatoire:
+                tentatives, nb_stockees = stats_aleatoire
+                print(f"Tentatives       : {tentatives:,}")
+                print(f"Combinaisons uniques stockées : {nb_stockees:,}")
+                        
 
             if not solved:
                 # Stats spécifiques à la force brute exhaustive

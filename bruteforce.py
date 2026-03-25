@@ -6,6 +6,7 @@ from regles import (
     grille_valide
 )
 import copy
+import random
 
 def resoudre_force_brute_iterative(grille):
     """
@@ -65,3 +66,107 @@ def resoudre_force_brute_exhaustive(grille):
 
     return False, combinaisons_testees, total
 
+
+def bruteforce_aleatoire_memoire(grille, max_tentatives=1000):
+    """
+    Force brute aléatoire avec mémoire.
+    Tire au hasard parmi les candidats valides à chaque case.
+    Stocke les combinaisons testées pour ne jamais les refaire.
+    S'arrête après max_tentatives combinaisons uniques.
+    """
+    combinaisons_testees = set()
+    tentatives = 0
+
+    while tentatives < max_tentatives:
+        grille_test = copy.deepcopy(grille)
+        combinaison = []
+        bloquee = False
+
+        for i in range(9):
+            for j in range(9):
+                if grille_test[i][j] == 0:
+                    candidats = [
+                        c for c in range(1, 10)
+                        if (chiffre_absent_ligne(grille_test, i, c) and
+                            chiffre_absent_colonne(grille_test, j, c) and
+                            chiffre_absent_bloc(grille_test, i, j, c))
+                    ]
+
+                    if not candidats:
+                        bloquee = True
+                        break
+
+                    random.shuffle(candidats)
+                    grille_test[i][j] = candidats[0]
+                    combinaison.append(candidats[0])
+
+            if bloquee:
+                break
+
+        cle = tuple(combinaison)
+
+        # Combinaison déjà testée → on repart sans compter
+        if cle in combinaisons_testees:
+            continue
+
+        # Nouvelle combinaison → on stocke et on compte
+        combinaisons_testees.add(cle)
+        tentatives += 1
+
+        # Vérifie si la grille est complète et valide
+        if not bloquee and grille_valide(grille_test):
+            for i in range(9):
+                for j in range(9):
+                    grille[i][j] = grille_test[i][j]
+            return True, tentatives, len(combinaisons_testees)
+
+    return False, tentatives, len(combinaisons_testees)
+
+def bruteforce_exhaustif_aleatoire_memoire(grille, max_tentatives=100000):
+    """
+    Force brute exhaustive aléatoire avec mémoire.
+    Tire 45 chiffres au hasard (1-9) sans vérifier les règles pendant le remplissage.
+    Vérifie la grille complète seulement à la fin.
+    Condition d'arrêt : max_tentatives combinaisons uniques testées.
+    Illustre la saturation mémoire et l'importance de la condition d'arrêt.
+    """
+    combinaisons_testees = set()   # mémoire des combinaisons vues
+    tentatives = 0
+    total_generees = 0
+
+    # Récupère les positions des cases vides
+    cases_vides = []
+    for i in range(9):
+        for j in range(9):
+            if grille[i][j] == 0:
+                cases_vides.append((i, j))
+
+    nb_cases_vides = len(cases_vides)
+
+    while tentatives < max_tentatives:   # ← CONDITION D'ARRÊT
+
+        # Tire au hasard sans vérifier les règles
+        combinaison = tuple(random.randint(1, 9) for _ in range(nb_cases_vides))
+        total_generees += 1
+        # Combinaison déjà testée → on repart sans compter
+        if combinaison in combinaisons_testees:
+            continue
+
+        # Nouvelle combinaison → on stocke et on compte
+        combinaisons_testees.add(combinaison)
+        tentatives += 1
+
+        # On remplit la grille test
+        grille_test = copy.deepcopy(grille)
+        for k, (i, j) in enumerate(cases_vides):
+            grille_test[i][j] = combinaison[k]
+
+        # On vérifie les règles seulement maintenant
+        if grille_valide(grille_test):
+            for i in range(9):
+                for j in range(9):
+                    grille[i][j] = grille_test[i][j]
+            return True, tentatives, len(combinaisons_testees)
+
+    # Condition d'arrêt atteinte
+    return False, tentatives, len(combinaisons_testees)

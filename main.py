@@ -21,6 +21,7 @@ while True:
         print("1. Backtracking")
         print("2. Force brute itérative (passes multiples)")
         print("3. Force brute exhaustive (toutes les combinaisons)")
+        print("4. Force brute aléatoire avec mémoire")
         algo = input("\n👉 (1-3) : ").strip()
 
         try:
@@ -30,6 +31,8 @@ while True:
                 sudoku.resoudre('bruteforce_iterative')
             elif algo == "3":
                 sudoku.resoudre('bruteforce_exhaustive')
+            elif algo == "4":
+                sudoku.resoudre('bruteforce_aleatoire_memoire')
             else:
                 print("Choix invalide")
         except KeyboardInterrupt:
