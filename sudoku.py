@@ -84,7 +84,7 @@ class SudokuGrid:
         originale = copy.deepcopy(self.grille)
         solved = False
         stats_exhaustive = None
-        stats_aleatoire = None
+        stats_aleatoire = []
 
         print(f"\n=== {methode.upper()} ===")
         print("Grille de départ :")
@@ -99,10 +99,10 @@ class SudokuGrid:
             elif methode == 'bruteforce_iterative':
                 solved = resoudre_force_brute_iterative(grille_travail)
             elif methode == 'bruteforce_aleatoire_memoire':
-                solved, tentatives, nb_stockees = bruteforce_aleatoire_memoire(grille_travail)
+                solved, tentatives, nb_stockees = bruteforce_aleatoire_memoire(grille_travail, stats=stats_aleatoire)
                 stats_aleatoire = (tentatives, nb_stockees)
             elif methode == 'bruteforce_exhaustif_aleatoire_memoire':
-                solved, tentatives, nb_stockees = bruteforce_exhaustif_aleatoire_memoire(grille_travail)
+                solved, tentatives, nb_stockees = bruteforce_exhaustif_aleatoire_memoire(grille_travail, stats=stats_aleatoire)
                 stats_aleatoire = (tentatives, nb_stockees)
             else:
                 solved, combinaisons, total = resoudre_force_brute_exhaustive(grille_travail)
@@ -123,25 +123,22 @@ class SudokuGrid:
             print("\nStats :")
             print(f"\nTempss   : {fin - debut:.6f}s")
             print(f"Mémoire : {current/1024:.2f} Ko (pic : {peak/1024:.2f} Ko)")
+            
             if methode == 'backtracking':
                 print(f"Nb opérations : {nb_operations[0]:,}")
-            elif methode == 'bruteforce_aleatoire_memoire' and stats_aleatoire:
-                tentatives, nb_stockees = stats_aleatoire
-                print(f"Tentatives       : {tentatives:,}")
-                print(f"Combinaisons uniques stockées : {nb_stockees:,}")
-            elif methode == 'bruteforce_exhaustif_aleatoire_memoire' and stats_aleatoire:
-                tentatives, nb_stockees = stats_aleatoire
-                print(f"Tentatives       : {tentatives:,}")
-                print(f"Combinaisons uniques stockées : {nb_stockees:,}")
-                print(f"Tentatives générées : {tentatives:,} ")
-                
+            elif methode in ('bruteforce_aleatoire_memoire', 'bruteforce_exhaustif_aleatoire_memoire'):
+                if stats_aleatoire:
+                    print(f"Tentatives            : {stats_aleatoire[0]:,}")
+                    print(f"Combinaisons stockées : {stats_aleatoire[1]:,}")
+                else:
+                    print("Interrompu avant la première tentative")
+
             if not solved:
-                # Stats spécifiques à la force brute exhaustive
                 if stats_exhaustive:
                     combinaisons, total = stats_exhaustive
                     print(f"Combinaisons testées : {combinaisons:,}")
                     print(f"Total possible       : {total:.2e}")
                     print(f"Progression          : {combinaisons/total*100:.8f}%")
                     print("⚠️  Grille non résolue complètement")
-
+                    
         return solved, grille_travail
