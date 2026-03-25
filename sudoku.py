@@ -2,7 +2,7 @@ import copy
 import time
 import tracemalloc
 
-from bruteforce import resoudre_force_brute_iterative, resoudre_force_brute_exhaustive
+from bruteforce import resoudre_force_brute_iterative, resoudre_force_brute_exhaustive, bruteforce_aleatoire_memoire, bruteforce_exhaustif_aleatoire_memoire
 from backtracking import resoudre_backtracking
 
 
@@ -77,13 +77,14 @@ class SudokuGrid:
     # ------------------------------------------------------------------
 
     def resoudre(self, methode: str):
-        if methode not in ('backtracking', 'bruteforce_iterative', 'bruteforce_exhaustive'):
+        if methode not in ('backtracking', 'bruteforce_iterative', 'bruteforce_exhaustive', 'bruteforce_aleatoire_memoire', 'bruteforce_exhaustif_aleatoire_memoire'):
             raise ValueError("methode invalide")
 
         grille_travail = copy.deepcopy(self.grille)
         originale = copy.deepcopy(self.grille)
         solved = False
         stats_exhaustive = None
+        stats_aleatoire = None
 
         print(f"\n=== {methode.upper()} ===")
         print("Grille de départ :")
@@ -97,6 +98,12 @@ class SudokuGrid:
                 solved = resoudre_backtracking(grille_travail, nb_operations)
             elif methode == 'bruteforce_iterative':
                 solved = resoudre_force_brute_iterative(grille_travail)
+            elif methode == 'bruteforce_aleatoire_memoire':
+                solved, tentatives, nb_stockees = bruteforce_aleatoire_memoire(grille_travail)
+                stats_aleatoire = (tentatives, nb_stockees)
+            elif methode == 'bruteforce_exhaustif_aleatoire_memoire':
+                solved, tentatives, nb_stockees = bruteforce_exhaustif_aleatoire_memoire(grille_travail)
+                stats_aleatoire = (tentatives, nb_stockees)
             else:
                 solved, combinaisons, total = resoudre_force_brute_exhaustive(grille_travail)
                 stats_exhaustive = (combinaisons, total)
@@ -114,12 +121,20 @@ class SudokuGrid:
             tracemalloc.stop()
 
             print("\nStats :")
-            print(f"\nTemps   : {fin - debut:.6f}s")
+            print(f"\nTempss   : {fin - debut:.6f}s")
             print(f"Mémoire : {current/1024:.2f} Ko (pic : {peak/1024:.2f} Ko)")
             if methode == 'backtracking':
                 print(f"Nb opérations : {nb_operations[0]:,}")
-            
-
+            elif methode == 'bruteforce_aleatoire_memoire' and stats_aleatoire:
+                tentatives, nb_stockees = stats_aleatoire
+                print(f"Tentatives       : {tentatives:,}")
+                print(f"Combinaisons uniques stockées : {nb_stockees:,}")
+            elif methode == 'bruteforce_exhaustif_aleatoire_memoire' and stats_aleatoire:
+                tentatives, nb_stockees = stats_aleatoire
+                print(f"Tentatives       : {tentatives:,}")
+                print(f"Combinaisons uniques stockées : {nb_stockees:,}")
+                print(f"Tentatives générées : {tentatives:,} ")
+                
             if not solved:
                 # Stats spécifiques à la force brute exhaustive
                 if stats_exhaustive:
