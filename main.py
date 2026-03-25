@@ -18,21 +18,25 @@ while True:
         sudoku = SudokuGrid("grilles.txt", numero)
 
         print("\nAlgorithme :")
-        print("1. Backtracking")
-        print("2. Force brute itérative (passes multiples)")
-        print("3. Force brute exhaustive (toutes les combinaisons)")
-        print("4. Force brute aléatoire avec mémoire")
-        algo = input("\n👉 (1-3) : ").strip()
+        print("1. Backtracking")                        
+
+        print("2. Force brute aléatoire avec mémoire")
+        print("3. Force brute itérative (passes multiples)")
+        print("4. Force brute exhaustive (toutes les combinaisons)")
+        print("5. Force brute exhaustive aléatoire mémoire")
+        algo = input("\n👉 (1-5) : ").strip()
 
         try:
             if algo == "1":
                 sudoku.resoudre('backtracking')
             elif algo == "2":
-                sudoku.resoudre('bruteforce_iterative')
-            elif algo == "3":
-                sudoku.resoudre('bruteforce_exhaustive')
-            elif algo == "4":
                 sudoku.resoudre('bruteforce_aleatoire_memoire')
+            elif algo == "3":
+                sudoku.resoudre('bruteforce_iterative')
+            elif algo == "4":
+                sudoku.resoudre('bruteforce_exhaustive')
+            elif algo  =="5":
+                sudoku.resoudre('bruteforce_exhaustif_aleatoire_memoire')
             else:
                 print("Choix invalide")
         except KeyboardInterrupt:
