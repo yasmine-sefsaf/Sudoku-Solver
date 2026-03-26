@@ -1,3 +1,4 @@
+# Copy : permet de modifier les grilles issues de grilles.txt pour ne modifier qu'une copie (ajout des chiffres trouvés) et pas l'original
 import copy
 import time
 import tracemalloc
@@ -16,11 +17,7 @@ class SudokuGrid:
     # ------------------------------------------------------------------
 
     def _lire_fichier(self, chemin, numero):
-        """
-        Lit la grille numéro 'numero' dans grilles.txt.
-        Les grilles sont séparées par '---'.
-        Les cases vides sont représentées par '_'.
-        """
+        # Lit la grille numéro 'numero' dans grilles.txt. Les grilles sont séparées par '---'. Les cases vides sont représentées par '_'.
         with open(chemin, 'r') as f:
             contenu = f.read()
 
@@ -35,6 +32,7 @@ class SudokuGrid:
             ligne = ligne.strip()
             if not ligne:
                 continue
+            # Les "_" sont remplacés par des zéros si il n'y a pas de chiffres au préalable
             row = [int(c) if c.isdigit() else 0 for c in ligne]
             if len(row) == 9:
                 grille.append(row)
@@ -49,10 +47,8 @@ class SudokuGrid:
     # ------------------------------------------------------------------
 
     def afficher(self, grille=None, originale=None):
-        """
-        Affiche la grille dans le terminal.
-        Les chiffres ajoutés par l'algorithme sont affichés entre crochets.
-        """
+        # Affiche la grille dans le terminal. Les chiffres ajoutés par l'algorithme sont affichés entre crochets.
+
         if grille is None:
             grille = self.grille
         print()
@@ -77,6 +73,7 @@ class SudokuGrid:
     # ------------------------------------------------------------------
 
     def resoudre(self, methode: str):
+        # Vérifions que la méthode existe :
         if methode not in ('backtracking', 'bruteforce_iterative', 'bruteforce_exhaustive', 'bruteforce_aleatoire_memoire', 'bruteforce_exhaustif_aleatoire_memoire'):
             raise ValueError("methode invalide")
 
