@@ -89,7 +89,7 @@ def bruteforce_aleatoire_memoire(grille, max_tentatives=100000, stats=None):
             else:
                 stats[0] = tentatives
                 stats[1] = len(combinaisons_testees)
-
+        # Optimisation des candidats possibles par case
         for i in range(9):
             for j in range(9):
                 if grille_test[i][j] == 0:
@@ -103,14 +103,14 @@ def bruteforce_aleatoire_memoire(grille, max_tentatives=100000, stats=None):
                     if not candidats:
                         bloquee = True
                         break
-
+                    # Création de la sortie random par case
                     random.shuffle(candidats)
                     grille_test[i][j] = candidats[0]
                     combinaison.append(candidats[0])
 
             if bloquee:
                 break
-
+        # On encapsule la solution générée en random
         cle = tuple(combinaison)
 
         # Combinaison déjà testée → on repart sans compter
