@@ -9,7 +9,7 @@ import copy
 import random
 
 def resoudre_force_brute_iterative(grille):
-    # Force brute itérative : répète des passes sur la grille.Chaque passe place le premier chiffre valide dans chaque case vide.S'arrête quand la grille est résolue ou quand aucun progrès n'est fait.vRapide mais ne résout pas les grilles complexes.
+    # Force brute itérative : répète des passes sur la grille.Chaque passe place le premier chiffre valide dans chaque case vide.S'arrête quand la grille est résolue ou quand aucun progrès n'est fait. Rapide mais ne résout pas les grilles complexes.
     while True:
         cases_remplies_ce_tour = 0
         cases_vides_restantes = 0
