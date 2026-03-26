@@ -7,7 +7,7 @@ while True:
     print("1-6. Choisir une grille")
     print("0. Quitter")
 
-    choix = input("\n👉 : ").strip()
+    choix = input("\Choix : ").strip()
 
     if choix == "0":
         print("Au revoir !")
@@ -23,7 +23,7 @@ while True:
         print("3. Force brute itérative (passes multiples)")
         print("4. Force brute exhaustive (toutes les combinaisons)")
         print("5. Force brute exhaustive aléatoire mémoire")
-        algo = input("\n👉 (1-5) : ").strip()
+        algo = input("\nChoix (1-5) : ").strip()
 
         try:
             if algo == "1":

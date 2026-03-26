@@ -139,6 +139,6 @@ class SudokuGrid:
                     print(f"Combinaisons testées : {combinaisons:,}")
                     print(f"Total possible       : {total:.2e}")
                     print(f"Progression          : {combinaisons/total*100:.8f}%")
-                    print("⚠️  Grille non résolue complètement")
+                    print("Attention : Grille non résolue complètement")
                     
         return solved, grille_travail
