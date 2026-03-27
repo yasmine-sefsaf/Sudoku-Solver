@@ -34,9 +34,9 @@ Par exemple dans le cas de 45 cases libres dans une grille de sudoku, le nombre 
 Dans les deux cas, la complexité algorithmique est la suivante :  
 Force brute exhaustive : O(9^k)  
 Backtracking : entre O(k) et O(9^k) selon la grille   
-Le "coût en mémoire" est, dans le contexte de  l'utilisation de variation de bruteforce (voir autre fichier README_comparaison) est affecté par l'utilisation de deepcopy. En effet, il est nécessaire pour certains des algorythme de créer une copie vide de la grille original
 
-Note
+**Le "coût en mémoire"** est, dans le contexte de  l'utilisation de variation de bruteforce (voir autre fichier README_comparaison) affecté par l'utilisation de deepcopy. En effet, il est nécessaire pour certains des algorithmes de créer une copie vide de la grille originale à chaque passe (récursivité) pour permettre que l'originale ne soit pas affectée. 
+
 
 
 
