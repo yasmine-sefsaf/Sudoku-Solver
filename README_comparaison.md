@@ -5,7 +5,8 @@
 
 ### Comparaison des différents algorithmes
 
-**1) Le backtracking**
+**1) Le backtracking**   
+Parler de récursivité ici car il n'y en a pas dans la force brute.
 
 
 **1.a) Le Backtracking classique**
@@ -42,7 +43,8 @@ Les valeurs sont identiques pour les 6 grilles, elles sont irresolvables dans le
 
 **3.2) Bruteforce exhaustive aléatoire à mémoire**
 Le principe de cet algorithme est le même que le précédent, à savoir le test de toutes le combinaisons possibles.
-Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tirées au hasard et mises en mémoire afin de ne pas être réutilisées lors du test de validation (qui n'a jamais rêvé de gagner au loto?) 
+Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tirées au hasard et mises en mémoire afin de ne pas être réutilisées lors du test de validation (qui n'a jamais rêvé de gagner au loto?)   
+Par ailleurs on constate une très grosse utilisation de la mémoire (plus de 43Mo pour 33 minutes, cela représente environ 1,83 Go pour 24h).
 
 Exemple :    
 ![Stats pour 100000 tentatives](images/bruteforce_aleatoire_memoire.jpg)
@@ -50,8 +52,15 @@ Exemple :
 
 **3.3) Bruteforce aléatoire à mémoire**
 Le principe de cet algorithme est de tester toutes les combinaisons possibles, celles ci étant uniquement constituées des candidats possibles pour chaque cases.
-Il peut y avoir de grandes différences de temps  de traitement, de relativement courrt à impossible. ceci est différencié par la complexité exponentielle : plus il y  a de cases vides et plsu le nombre de candidats possibles sont élevés, plus le temps de résolution est grand.   
+Il peut y avoir de grandes différences de temps  de traitement, de relativement court à astronomiquement long. Ceci est différencié par la complexité exponentielle : plus il y  a de cases vides et plus le nombre de candidats possibles sont élevés, donc plus le temps de résolution est grand. Dans notre contexte, les grilles 1 à 3 sont résolues, en revanche à  partir de la grille 4, le temps demandé est très long.
 
-![Comparaison grille 3 et 4](images/Comparatif_griles_3_4.jpg)
+![Comparaison grille 3 et 4](images/Comparatif_griles_3_4.jpg)   
 
 
+**3.4) Bruteforce itérative**
+Cet algorithme est là juste pour faire un pont vers le Backtracking. Chaque passe pose le premier chiffre valide dans chaque case. Dès qu'il y a un blocage, l'algorithme s'arrête. Cela fonctionnerai pour des grilles extrêmement simples, dans notre cas le programme s'arrête avant la résolution, et ce pour chaque grille proposée :
+
+![Forcebrute Itérative](images/FBI.jpeg)   
+
+Ici on constate que les cases remplies du premier chiffre des candidats possibles, les cases vides sont celles où aucun chiffres ne correspondent.   
+L'ordre de remplissage crée des dépendances : une case bloquée au tour 1 aurait pu être remplie si une autre case avait été remplie avant. Mais comme l'algorithme avance sans retoure en arrière, il rate cette opportunité.
