@@ -7,7 +7,7 @@ while True:
     print("1-6. Choisir une grille")
     print("0. Quitter")
 
-    choix = input("\Choix : ").strip()
+    choix = input("\nChoix : ").strip()
 
     if choix == "0":
         print("Au revoir !")
