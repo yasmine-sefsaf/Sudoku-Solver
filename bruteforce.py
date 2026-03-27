@@ -125,7 +125,7 @@ def bruteforce_aleatoire_memoire(grille, max_tentatives=100000, stats=None):
     return False, tentatives, len(combinaisons_testees)
 
 
-def bruteforce_exhaustif_aleatoire_memoire(grille, max_tentatives=100000):
+def bruteforce_exhaustif_aleatoire_memoire(grille, max_tentatives=100000, stats=None):
 
     # Force brute exhaustive aléatoire avec mémoire. Tire 45 chiffres au hasard (De 1 à 9 pour chaque chiffre) sans vérifier les règles pendant le remplissage. Vérifie la grille complète seulement à la fin. Condition d'arrêt : max_tentatives combinaisons uniques testées. Illustre la saturation mémoire et l'importance de la condition d'arrêt.
 
@@ -159,6 +159,14 @@ def bruteforce_exhaustif_aleatoire_memoire(grille, max_tentatives=100000):
         combinaisons_testees.add(combinaison)
         tentatives += 1
 
+        if stats is not None :
+            if len(stats) == 0:
+                stats.append(tentatives)
+                stats.append(len(combinaisons_testees))
+            else : 
+                stats[0] = tentatives
+                stats[1] = len(combinaisons_testees)
+                
         # On remplit la grille test
         grille_test = copy.deepcopy(grille)
         for k, (i, j) in enumerate(cases_vides):
