@@ -11,7 +11,17 @@ A ce titre, deux algorithme sont proposés dans l'énoncé du projet :
 - le Backtracking
 - Le bruteforce
 
-Les conditions de présentation du projet : 
+#### Les conditions de présentation du projet : 
 - Codage en python orienté objet
 - Etude de la complexité algorithmique des méthodes de résolution choisies
-- 
+- Affichage des statistiques de temps et de mémoire
+- Prendre en entrée les grilles de Sudoku données dans le cadre de l'exercice  
+
+
+#### Affichage :
+le programme devra être 
+
+
+```python 
+if rezferf is 
+```
