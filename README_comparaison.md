@@ -5,7 +5,9 @@
 
 ### Comparaison des différents algorithmes
 
+
 **1) La force brute**   
+
 Nous avons choisi de créer des variations autour de l'algorithme de force brute, afin de créer une sorte de progression dans les tentatives de résolution, et ce jusqu'à la plus rapide des résolutions (backtracking).
 
 Comme soulevé dans l' autre document de synthèse (READAME_contexte.md), l'utilisation de deepcopy, nécessaire à l'application de certains algorithmes, représente une coût mémoire.   
@@ -33,7 +35,8 @@ Les valeurs sont identiques pour les 6 grilles, elles sont irresolvables dans le
 
 **1.2) Bruteforce exhaustive aléatoire à mémoire**
 Le principe de cet algorithme est le même que le précédent, à savoir le test de toutes le combinaisons possibles.
-Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tirées au hasard et mises en mémoire afin de ne pas être réutilisées lors du test de validation (qui n'a jamais rêvé de gagner au loto?) 
+Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tirées au hasard et mises en mémoire afin de ne pas être réutilisées lors du test de validation (qui n'a jamais rêvé de gagner au loto?)   
+Par ailleurs on constate une très grosse utilisation de la mémoire (plus de 43Mo pour 33 minutes, cela représente environ 1,83 Go pour 24h).
 
 Exemple :    
 ![Stats pour 100000 tentatives](images/bruteforce_aleatoire_memoire.jpg)
@@ -41,9 +44,14 @@ Exemple :
 
 **1.3) Bruteforce aléatoire à mémoire**
 Le principe de cet algorithme est de tester toutes les combinaisons possibles, celles ci étant uniquement constituées des candidats possibles pour chaque cases.
-Il peut y avoir de grandes différences de temps  de traitement, de relativement courrt à impossible. ceci est différencié par la complexité exponentielle : plus il y  a de cases vides et plsu le nombre de candidats possibles sont élevés, plus le temps de résolution est grand.   
+Il peut y avoir de grandes différences de temps  de traitement, de relativement court à astronomiquement long. Ceci est différencié par la complexité exponentielle : plus il y  a de cases vides et plus le nombre de candidats possibles sont élevés, donc plus le temps de résolution est grand. Dans notre contexte, les grilles 1 à 3 sont résolues, en revanche à  partir de la grille 4, le temps demandé est très long.
 
-![Comparaison grille 3 et 4](images/Comparatif_griles_3_4.jpg)
+![Comparaison grille 3 et 4](images/Comparatif_griles_3_4.jpg)   
+
+
+
+
+
 
 
 **2) Le backtracking**
@@ -81,4 +89,5 @@ Pré-filtrage : on élimine les valeurs impossibles avant les essais
 MRV : on priorise les cases les plus contraintes
 
 Ces améliorations réduisent fortement le nombre d’essais et le temps d’exécution. Le backtracking optimisé s’impose comme la solution correcte, efficace et réaliste.
+
 
