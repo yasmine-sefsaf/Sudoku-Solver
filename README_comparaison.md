@@ -15,7 +15,8 @@ Celui-ci est inhérent à l'architecture de cet algorithme. En effet, chaque ten
 
 **1.1) Bruteforce exhaustive**
 
-Fonctionnement : remplissage des case de la valeur la plus basse autorisée, puis incrémentation de 1 à chaque tentatives. Les règles du Sudoku soont appliquées sur la grille remplie.   
+Fonctionnement : remplissage des case de la valeur la plus basse autorisée, puis incrémentation de 1 à chaque tentatives de ce nombre constitué de 45 chiffres.   
+Les règles du Sudoku sont appliquées sur la grille remplie.   
 Dans ce contexte, nous avons implémenté une condition d'arrêt à 100000 (cent mille) tentatives.  
 Nombre de combinaisons possibles pour 45 cases : 9⁴⁵ soit 8,73 *10⁴² solutions. 
 ValeurCombinaisons à tester :8.73 × 10^42   Vitesse du PC : 42 517 551 combinaisons/heure   
@@ -32,6 +33,8 @@ Les valeurs sont identiques pour les 6 grilles, elles sont irresolvables dans le
 
 ![Tableau récapitulatif pour les 6 grilles](images/Tableau_comparatif_grilles_bruteforce.jpg)   
 
+***Complexité de la force brute force exhaustive aléatoire à mémoire :*** O(9^K)
+
 
 **1.2) Bruteforce exhaustive aléatoire à mémoire**
 
@@ -40,7 +43,9 @@ Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tir
 Par ailleurs on constate une très grosse utilisation de la mémoire (plus de 43Mo pour 33 minutes, cela représente environ 1,83 Go pour 24h).
 
 Exemple :    
-![Stats pour 100000 tentatives](images/bruteforce_aleatoire_memoire.jpg)
+![Stats pour 100000 tentatives](images/bruteforce_aleatoire_memoire.jpg)   
+
+***Complexité de la force brute force exhaustive aléatoire à mémoire :*** O(9^K)
 
 
 **1.3) Bruteforce aléatoire à mémoire**
@@ -67,12 +72,12 @@ Avec T = 100 000 et k = 45 :
 Dans ce projet, on a utilisé l’algorithme de backtracking pour résoudre des grilles de Sudoku. Le backtracking est une méthode de recherche systématique qui construit progressivement une solution et revient en arrière dès qu’une contradiction est détectée. Concrètement, l’algorithme remplit la grille case par case, teste les chiffres possibles en respectant les contraintes du Sudoku (lignes, colonnes et blocs), puis annule un choix dès qu’aucune valeur valide n’est disponible pour la suite.   
 
 ***Complexité algorithmique du backtracking :***   
-Ce n'est pas calculable avant la présentation de la grille, car la complexité algorithmique varie en fonction de la grille : pour K cases vides la complexité serait au maximum de o(9^k). Cependant, avec le backtracking, tout l'espace de k n'est pas exploré.   
+Ce n'est pas calculable avant la présentation de la grille, car la complexité algorithmique varie en fonction de la grille : pour K cases vides la complexité serait au maximum de O(9^k). Cependant, avec le backtracking, tout l'espace de k n'est pas exploré.   
 Exemple pour les grilles 1 et 6 :    
-k varie entre 47 et 60 cases vides. 
+k varie entre 45 et 60 cases vides. 
 Cependant, le backtracking n'explore qu'une fraction infime de l'espace théorique :
 
-Grille 1 : 307 opérations sur 8.73 × 10^42 possibles pourrésoudre la grille,
+Grille 1 : 307 opérations sur 8.73 × 10^42 possibles pour résoudre la grille,
 Grille 6 : 445 778 opérations sur 1.80 × 10^57 possibles pour résoudre la grille.
 
 
@@ -83,11 +88,11 @@ Le backtracking classique est une méthode de résolution qui construit une solu
 Dans le cas du Sudoku, on choisit une case vide, on essaie un chiffre possible, puis on vérifie si la grille reste valide. Si ce n’est pas le cas, on annule le choix précédent et on teste un autre chiffre ; sinon, on continue jusqu’à remplir toute la grille.
 
 
-**2.3) Le backtracking amélioré**
+**2.2) Le backtracking amélioré**
 
 Pour améliorer l'efficacité du backtracking classique, on a implémenté l'heuristique MRV (Minimum Remaining Values) : au lieu de choisir la première case vide rencontrée, on sélectionne systématiquement la case ayant le moins de valeurs possibles. Cette case "la plus contrainte" est traitée en priorité, car un mauvais choix y provoque une contradiction plus rapidement, réduisant ainsi la taille de l'arbre de recherche.
 
-Cette optimisation diminue fortement le nombre total d'essais (mesuré par le compteur) et accélèrent la résolution, particulièrement sur les grilles de Sudoku les plus difficiles.
+Cette optimisation diminue fortement le nombre total d'essais (mesuré par le compteur) et accélèrent la résolution, particulièrement sur les grilles de Sudoku les plus difficiles là où le backtracking simple aurait multiplié le nombre d'opérations.
 
 
 ### Conclusion :
@@ -100,4 +105,23 @@ L’optimisation avec le MRV accentue cette supériorité :on priorise les cases
 
 Ces améliorations réduisent fortement le nombre d’essais et le temps d’exécution. Le backtracking optimisé s’impose comme la solution correcte, efficace et réaliste.
 
+Voici un tableau comparatif (généré à l'aide de l'IA) qui concerne l'application des algorithme sur la 1ere grille (facile) afin de donner plus de chances aux algorithme hors backtracking :
 
+
+| Algorithme | Ordre d'exploration | Complexité | Nb opérations | Nb tentatives | Résout | Temps | Mémoire |
+|---|---|---|---|---|---|---|---|
+| Backtracking classique | case par case, gauche→droite | O(9^k) pire cas | 307 | 1 | ✅ toujours | 0.035s | 5.95 Ko |
+| Backtracking MRV | case la plus contrainte en priorité | O(9^k) pire cas, réduit en pratique | 45 | 1 | ✅ toujours | 0.506s | 8.25 Ko |
+| Force brute itérative | case par case, premier candidat valide | O(k) | 394 | 1 | ❌ partielle | 0.001s | 0.80 Ko |
+| Force brute exhaustive | lexicographique (1,1,1...→9,9,9...) | O(k · 9^k) | 8.73 × 10^42 | 8.73 × 10^42 | ✅ théoriquement | 2.05 × 10^35 h | faible |
+| Force brute aléatoire mémoire | aléatoire parmi candidats valides | O(T·k) avec T≤100 000 | variable | 12 (résolu) | ⚠️ aléatoire | 0.264s | 7.91 Ko |
+| Force brute exhaustive aléatoire mémoire | aléatoire parmi 1-9 | O(k · 9^k) | 8.73 × 10^42 | 100 000 max | ⚠️ très rare | variable | ~1.83 Go/24h |
+
+**Légende :**
+- k = nombre de cases vides (45 pour la grille 1)
+- T = nombre de tentatives maximum fixé dans le code
+- ✅ = résout toujours
+- ❌ = ne résout pas complètement
+- ⚠️ = résout parfois selon la chance
+
+> **Note :** Le backtracking MRV affiche plus de temps que le classique sur cette grille facile car il calcule les candidats de toutes les cases à chaque étape. Son avantage apparaît sur les grilles difficiles.
