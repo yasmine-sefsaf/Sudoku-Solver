@@ -34,6 +34,7 @@ Les valeurs sont identiques pour les 6 grilles, elles sont irresolvables dans le
 
 
 **1.2) Bruteforce exhaustive aléatoire à mémoire**
+
 Le principe de cet algorithme est le même que le précédent, à savoir le test de toutes le combinaisons possibles.
 Cependant, à la différence de bruteforce exhaustive, les combinaisons sont tirées au hasard et mises en mémoire afin de ne pas être réutilisées lors du test de validation (qui n'a jamais rêvé de gagner au loto?)   
 Par ailleurs on constate une très grosse utilisation de la mémoire (plus de 43Mo pour 33 minutes, cela représente environ 1,83 Go pour 24h).
@@ -43,6 +44,7 @@ Exemple :
 
 
 **1.3) Bruteforce aléatoire à mémoire**
+
 Le principe de cet algorithme est de tester toutes les combinaisons possibles, celles ci étant uniquement constituées des candidats possibles pour chaque cases.
 Il peut y avoir de grandes différences de temps  de traitement, de relativement court à astronomiquement long. Ceci est différencié par la complexité exponentielle : plus il y  a de cases vides et plus le nombre de candidats possibles sont élevés, donc plus le temps de résolution est grand. Dans notre contexte, les grilles 1 à 3 sont résolues, en revanche à  partir de la grille 4, le temps demandé est très long.
 
@@ -55,16 +57,19 @@ Il peut y avoir de grandes différences de temps  de traitement, de relativement
 
 
 **2) Le backtracking**
+
 Dans ce projet, on a utilisé l’algorithme de backtracking pour résoudre des grilles de Sudoku. Le backtracking est une méthode de recherche systématique qui construit progressivement une solution et revient en arrière dès qu’une contradiction est détectée. Concrètement, l’algorithme remplit la grille case par case, teste les chiffres possibles en respectant les contraintes du Sudoku (lignes, colonnes et blocs), puis annule un choix dès qu’aucune valeur valide n’est disponible pour la suite.
 
 
 **2.1) Le Backtracking classique**
+
 Le backtracking classique est une méthode de résolution qui construit une solution progressivement, en testant chaque possibilité l'une après l'autre. À chaque étape, si le choix courant ne respecte plus les contraintes du problème, on revient en arrière pour essayer une autre option.
 
 Dans le cas du Sudoku, on choisit une case vide, on essaie un chiffre possible, puis on vérifie si la grille reste valide. Si ce n’est pas le cas, on annule le choix et on teste un autre chiffre ; sinon, on continue jusqu’à remplir toute la grille.
 
 
 **2.3) Le backtracking amélioré**
+
 Pour améliorer l'efficacité du backtracking classique, on a implémenté deux optimisations principales :
 
 1) Pré-filtrage des valeurs possibles
