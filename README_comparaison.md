@@ -101,11 +101,11 @@ Cette étude comparative met en évidence l’efficacité des algorithmes de bac
 
 Différence principale : la force brute teste toutes les combinaisons sans exploiter les contraintes et nécessite une copie de la grille à chaque essai. Le backtracking classique teste progressivement et revient en arrière dès une contradiction, en travaillant directement sur la grille.
 
-L’optimisation avec le MRV accentue cette supériorité :on priorise les cases les plus contraintes.
+L’optimisation avec le MRV accentue cette supériorité : on priorise les cases les plus contraintes.
 
 Ces améliorations réduisent fortement le nombre d’essais et le temps d’exécution. Le backtracking optimisé s’impose comme la solution correcte, efficace et réaliste.
 
-Voici un tableau comparatif (généré à l'aide de l'IA) qui concerne l'application des algorithme sur la 1ere grille (facile) afin de donner plus de chances aux algorithme hors backtracking :
+Voici un tableau comparatif (généré à l'aide de l'IA) qui concerne l'application des algorithmes sur la 1ere grille (facile) afin de donner plus de chances aux algorithme hors backtracking :
 
 
 | Algorithme | Ordre d'exploration | Complexité | Nb opérations | Nb tentatives | Résout | Temps | Mémoire |

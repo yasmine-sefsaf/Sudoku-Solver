@@ -36,16 +36,9 @@ def est_valide(grille, ligne, colonne, chiffre):
     return (chiffre_absent_ligne(grille, ligne, chiffre) and
             chiffre_absent_colonne(grille, colonne, chiffre) and
             chiffre_absent_bloc(grille, ligne, colonne, chiffre))
-# def est_valide(grille, case, chiffre):
-#     ligne = case // 9
-#     colonne = case % 9
-#     return (chiffre_absent_ligne(grille, ligne, chiffre) and chiffre_absent_colonne(grille, colonne, chiffre) and chiffre_absent_bloc(grille, case, chiffre))
 
 def grille_valide(grille):
-    """
-    Vérifie que toute la grille respecte les règles du Sudoku.
-    Utilisée par la force brute exhaustive pour valider une combinaison complète.
-    """
+    # Vérifie que toute la grille respecte les règles du Sudoku. Utilisée par la force brute exhaustive pour valider une combinaison complète.
     for i in range(9):
         for j in range(9):
             chiffre = grille[i][j]
